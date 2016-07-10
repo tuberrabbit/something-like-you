@@ -1,8 +1,22 @@
 "use strict";
 var DIALOG_CONTENT = 'DIALOG_CONTENT';
 var APPROVE_VALUE = 'DIALOG_CONTENT';
-var REJECT_VALUE = 'DIALOG_CONTENT';
 var APPROVE_CONTENT = 'DIALOG_CONTENT';
+var REJECT_VALUE = 'DIALOG_CONTENT';
+var CLOSE_VALUE = '&#10007';
+var CLOSE_CONTENT = 'DIALOG_CONTENT';
+
+var screen = document.createElement('div');
+screen.setAttribute('style',
+    'width: 100%;' +
+    'height: 100%;' +
+    'position: absolute;' +
+    'z-index: 1000;' +
+    'background-color: lightgray;' +
+    'top: 0;' +
+    'left: 0;' +
+    'opacity: 0.3;');
+
 
 var dialog = document.createElement('div');
 dialog.setAttribute('style',
@@ -18,8 +32,13 @@ dialog.setAttribute('style',
     'border: 2px solid lightgray;' +
     'outline: double 4px blanchedalmond;');
 
+
 var showApprove = function (flag) {
-    return flag && alert(APPROVE_CONTENT);
+    if (flag) {
+        alert(APPROVE_CONTENT);
+        document.body.removeChild(dialog);
+        document.body.removeChild(screen);
+    }
 };
 
 
@@ -45,6 +64,17 @@ rejectBtn.addEventListener('click', function (evt) {
 });
 
 
+var closeBtn = document.createElement('span');
+closeBtn.innerHTML = CLOSE_VALUE;
+closeBtn.setAttribute('style',
+    'position: absolute;' +
+    'top: 0;' +
+    'right: 0;');
+closeBtn.addEventListener('click', function () {
+    alert(CLOSE_CONTENT);
+});
+
+
 var buttonGroup = document.createElement('div');
 buttonGroup.setAttribute('style',
     'position: absolute;' +
@@ -56,5 +86,7 @@ buttonGroup.appendChild(approveBtn);
 
 dialog.appendChild(contentText);
 dialog.appendChild(buttonGroup);
+dialog.appendChild(closeBtn);
 
+document.body.appendChild(screen);
 document.body.appendChild(dialog);
