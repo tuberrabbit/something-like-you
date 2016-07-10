@@ -4,7 +4,7 @@ var APPROVE_VALUE = '是的';
 var APPROVE_CONTENT = 'APPROVE_CONTENT';
 var REJECT_VALUE = '不是';
 var CLOSE_VALUE = '&#10007';
-var CLOSE_CONTENT = 'APPROVE_CONTENT';
+var CLOSE_CONTENT = 'CLOSE_CONTENT';
 var currentTranslateTimes = 4;
 
 var showApproval = function (flag) {
