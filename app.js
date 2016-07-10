@@ -6,6 +6,22 @@ var REJECT_VALUE = 'DIALOG_CONTENT';
 var CLOSE_VALUE = '&#10007';
 var CLOSE_CONTENT = 'DIALOG_CONTENT';
 
+var showApprove = function (flag) {
+    if (flag) {
+        alert(APPROVE_CONTENT);
+        document.body.removeChild(dialog);
+        document.body.removeChild(screen);
+    }
+};
+
+var switchValue = function (flag) {
+    if (flag) {
+        var btnValue = approveBtn.textContent;
+        approveBtn.textContent = rejectBtn.textContent;
+        rejectBtn.textContent = btnValue;
+    }
+};
+
 var screen = document.createElement('div');
 screen.setAttribute('style',
     'width: 100%;' +
@@ -33,15 +49,6 @@ dialog.setAttribute('style',
     'outline: double 4px blanchedalmond;');
 
 
-var showApprove = function (flag) {
-    if (flag) {
-        alert(APPROVE_CONTENT);
-        document.body.removeChild(dialog);
-        document.body.removeChild(screen);
-    }
-};
-
-
 var contentText = document.createElement('div');
 contentText.innerHTML = DIALOG_CONTENT;
 contentText.setAttribute('style',
@@ -51,16 +58,25 @@ contentText.setAttribute('style',
 var approveBtn = document.createElement('button');
 approveBtn.textContent = APPROVE_VALUE;
 approveBtn.setAttribute('style',
-    'margin-left: 30px;');
+    'margin-left: 30px;' +
+    'cursor: pointer;');
 approveBtn.addEventListener('click', function (evt) {
     showApprove(evt.target.textContent === APPROVE_VALUE);
+});
+approveBtn.addEventListener('mouseenter', function (evt) {
+    switchValue(evt.target.textContent === REJECT_VALUE);
 });
 
 
 var rejectBtn = document.createElement('button');
 rejectBtn.textContent = REJECT_VALUE;
+rejectBtn.setAttribute('style',
+    'cursor: pointer;');
 rejectBtn.addEventListener('click', function (evt) {
     showApprove(evt.target.textContent === APPROVE_VALUE);
+});
+rejectBtn.addEventListener('mouseenter', function (evt) {
+    switchValue(evt.target.textContent === REJECT_VALUE);
 });
 
 
@@ -69,7 +85,8 @@ closeBtn.innerHTML = CLOSE_VALUE;
 closeBtn.setAttribute('style',
     'position: absolute;' +
     'top: 0;' +
-    'right: 0;');
+    'right: 0;' +
+    'cursor: pointer;');
 closeBtn.addEventListener('click', function () {
     alert(CLOSE_CONTENT);
 });
