@@ -1,10 +1,10 @@
 "use strict";
 var DIALOG_CONTENT = 'DIALOG_CONTENT';
-var APPROVE_VALUE = 'DIALOG_CONTENT';
-var APPROVE_CONTENT = 'DIALOG_CONTENT';
-var REJECT_VALUE = 'DIALOG_CONTENT';
+var APPROVE_VALUE = '是的';
+var APPROVE_CONTENT = 'APPROVE_CONTENT';
+var REJECT_VALUE = '不是';
 var CLOSE_VALUE = '&#10007';
-var CLOSE_CONTENT = 'DIALOG_CONTENT';
+var CLOSE_CONTENT = 'APPROVE_CONTENT';
 var currentTranslateTimes = 4;
 
 var showApproval = function (flag) {
