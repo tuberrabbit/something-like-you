@@ -5,8 +5,9 @@ var APPROVE_CONTENT = 'DIALOG_CONTENT';
 var REJECT_VALUE = 'DIALOG_CONTENT';
 var CLOSE_VALUE = '&#10007';
 var CLOSE_CONTENT = 'DIALOG_CONTENT';
+var currentTranslateTimes = 4;
 
-var showApprove = function (flag) {
+var showApproval = function (flag) {
     if (flag) {
         alert(APPROVE_CONTENT);
         document.body.removeChild(dialog);
@@ -21,6 +22,48 @@ var switchValue = function (flag) {
         rejectBtn.textContent = btnValue;
     }
 };
+
+var onSwitchValue = function (evt) {
+    switchValue(evt.target.textContent === REJECT_VALUE);
+};
+
+var onShowApproval = function (evt) {
+    showApproval(evt.target.textContent === APPROVE_VALUE);
+};
+
+var onTranslate = function (evt) {
+    var ele = evt.target;
+    ele.style.position = 'absolute';
+    ele.style.transform = 'translateX(-100%)';
+    var pos = -20;
+    var target = 0;
+    if (ele.style.top != '-20px') {
+        pos = 0;
+        target = -20;
+    }
+    var id = setInterval(frame, 0);
+
+    function frame() {
+        if (pos === target) {
+            clearInterval(id);
+            if (!--currentTranslateTimes) {
+                rejectBtn.setAttribute('style',
+                    'cursor: pointer;');
+                rejectBtn.removeEventListener('mouseenter', onTranslate);
+                rejectBtn.addEventListener('mouseenter', onSwitchValue);
+                approveBtn.addEventListener('mouseenter', onSwitchValue);
+            }
+        } else {
+            if (pos < target) {
+                pos++;
+            } else {
+                pos--;
+            }
+            ele.style.top = pos + 'px';
+        }
+    }
+};
+
 
 var screen = document.createElement('div');
 screen.setAttribute('style',
@@ -60,25 +103,15 @@ approveBtn.textContent = APPROVE_VALUE;
 approveBtn.setAttribute('style',
     'margin-left: 30px;' +
     'cursor: pointer;');
-approveBtn.addEventListener('click', function (evt) {
-    showApprove(evt.target.textContent === APPROVE_VALUE);
-});
-approveBtn.addEventListener('mouseenter', function (evt) {
-    switchValue(evt.target.textContent === REJECT_VALUE);
-});
+approveBtn.addEventListener('click', onShowApproval);
 
 
 var rejectBtn = document.createElement('button');
 rejectBtn.textContent = REJECT_VALUE;
 rejectBtn.setAttribute('style',
     'cursor: pointer;');
-rejectBtn.addEventListener('click', function (evt) {
-    showApprove(evt.target.textContent === APPROVE_VALUE);
-});
-rejectBtn.addEventListener('mouseenter', function (evt) {
-    switchValue(evt.target.textContent === REJECT_VALUE);
-});
-
+rejectBtn.addEventListener('click', onShowApproval);
+rejectBtn.addEventListener('mouseenter', onTranslate);
 
 var closeBtn = document.createElement('span');
 closeBtn.innerHTML = CLOSE_VALUE;
